@@ -199,3 +199,32 @@ plot_classification_report(y_train, dt.predict(X_train), y_test, dt.predict(X_te
 
 c_name= "Random Forest"
 plot_classification_report(y_train, rf.predict(X_train), y_test, rf.predict(X_test), c_name)
+"""# Confusion Matrix"""
+
+from sklearn.metrics import confusion_matrix
+
+def plot_confusion_matrix(y_train_true, y_train_pred, y_test_true, y_test_pred, classifier_name):
+    train_cm = confusion_matrix(y_train_true, y_train_pred)
+    test_cm = confusion_matrix(y_test_true, y_test_pred)
+
+    fig, axes = plt.subplots(1, 2, figsize=(15, 5))
+
+    # Train Confusion Matrix
+    sns.heatmap(train_cm, annot=True, fmt="d", cmap="Blues", ax=axes[0])
+    axes[0].set_title(f'Train Confusion Matrix - {classifier_name}')
+    axes[0].set_xlabel('Predicted Labels')
+    axes[0].set_ylabel('True Labels')
+
+    # Test Confusion Matrix
+    sns.heatmap(test_cm, annot=True, fmt="d", cmap="Blues", ax=axes[1])
+    axes[1].set_title(f'Test Confusion Matrix - {classifier_name}')
+    axes[1].set_xlabel('Predicted Labels')
+    axes[1].set_ylabel('True Labels')
+
+    plt.show()
+
+# Generate confusion matrix for each classifier
+plot_confusion_matrix(y_train, knn.predict(X_train), y_test, knn.predict(X_test), "K-Nearest Neighbors")
+plot_confusion_matrix(y_train, logreg.predict(X_train), y_test, logreg.predict(X_test), "Logistic Regression")
+plot_confusion_matrix(y_train, dt.predict(X_train), y_test, dt.predict(X_test), "Decision Tree")
+plot_confusion_matrix(y_train, rf.predict(X_train), y_test, rf.predict(X_test), "Random Forest")
